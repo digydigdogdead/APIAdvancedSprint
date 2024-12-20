@@ -14,5 +14,15 @@ namespace APIAdvancedSprint.Services
         {
             return _teachersModel.GetTeacherById(id);
         }
+
+        public bool TryPostTeacher(Teacher teacher, out Teacher newTeacher)
+        {
+            return _teachersModel.TryAddTeacher(teacher, out newTeacher);
+        }
+
+        public List<Teacher> GetAllTeachers()
+        {
+            return _teachersModel.GetAllTeachers();
+        }
     }
 }
