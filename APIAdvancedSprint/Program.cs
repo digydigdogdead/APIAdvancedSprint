@@ -1,6 +1,8 @@
 using APIAdvancedSprint.Controllers;
 using APIAdvancedSprint.Services;
 using APIAdvancedSprint.Models;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using APIAdvancedSprint.HealthChecks;
 
 namespace APIAdvancedSprint
 {
@@ -14,7 +16,14 @@ namespace APIAdvancedSprint
             builder.Services.AddScoped<SpellsModel>();
             builder.Services.AddScoped<SpellsService>();
 
+            builder.Services.AddHealthChecks()
+                            .AddCheck<TeachersHealthCheck>("teachers_file_health_check",
+                                failureStatus: HealthStatus.Unhealthy,
+                                tags: new[] { "file", "teachers" });
+
             var app = builder.Build();
+
+            app.UseHealthChecks("/health");
 
             app.UseRouting();
 
