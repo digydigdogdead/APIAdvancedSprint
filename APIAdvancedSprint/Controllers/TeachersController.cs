@@ -1,5 +1,6 @@
 ﻿using APIAdvancedSprint.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace APIAdvancedSprint.Controllers
 {
@@ -8,16 +9,35 @@ namespace APIAdvancedSprint.Controllers
     public class TeachersController : Controller
     {
         private TeachersService _teachersService;
+        private readonly IMemoryCache _cache;
+        private const string TeacherCacheKey = "TeacherList";
 
-        public TeachersController(TeachersService teachersService)
+        public TeachersController(TeachersService teachersService, IMemoryCache cache)
         {
             _teachersService = teachersService;
+            _cache = cache;
         }
 
         [HttpGet]
         public IActionResult GetAllTeachers()
         {
-            return Ok(_teachersService.GetAllTeachers());
+            List<Teacher> teachers;
+
+            // If the cache contains products, store them in the `products` variable
+            if (!_cache.TryGetValue(TeacherCacheKey, out teachers))
+            {
+                // If cache is empty, retrieve products from the service layer
+                teachers = _teachersService.GetAllTeachers();
+
+                // Then store the retrieved products in the cache
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(2));
+
+                _cache.Set(TeacherCacheKey, teachers, cacheEntryOptions);
+            }
+
+            // return them, either from cache or from the service layer
+            return Ok(teachers);
         }
 
         [HttpGet("{id}")]

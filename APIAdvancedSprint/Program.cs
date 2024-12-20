@@ -5,6 +5,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using APIAdvancedSprint.HealthChecks;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace APIAdvancedSprint
 {
@@ -19,6 +20,7 @@ namespace APIAdvancedSprint
             builder.Services.AddScoped<SpellsService>();
             builder.Services.AddScoped<TeachersModel>();
             builder.Services.AddScoped<TeachersService>();
+            builder.Services.AddMemoryCache();
 
             builder.Services.AddRateLimiter(options =>
             {
