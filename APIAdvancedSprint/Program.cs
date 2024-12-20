@@ -29,7 +29,7 @@ namespace APIAdvancedSprint
                 {
                     options.PermitLimit = 3;
                     options.Window = TimeSpan.FromMinutes(1);
-                    options.QueueLimit = 2;
+                    options.QueueLimit = 0;
                     options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
                     
                 });
