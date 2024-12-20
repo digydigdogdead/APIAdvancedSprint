@@ -14,5 +14,10 @@ namespace APIAdvancedSprint.Services
         {
             return _spellsModel.GetAllSpells();
         }
+
+        public Spell GetRandomSpell()
+        {
+            return _spellsModel.GetRandomSpell();
+        }
     }
 }

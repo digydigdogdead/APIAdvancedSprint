@@ -21,5 +21,11 @@ namespace APIAdvancedSprint.Controllers
             if (result.Count != 0 || result != null) return Ok(result);
             else return NoContent();
         }
+
+        [HttpGet("/spell")]
+        public IActionResult GetRandomSpell()
+        {
+            return Ok(_spellsService.GetRandomSpell());
+        }
     }
 }

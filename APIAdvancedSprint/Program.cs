@@ -3,6 +3,8 @@ using APIAdvancedSprint.Services;
 using APIAdvancedSprint.Models;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using APIAdvancedSprint.HealthChecks;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 namespace APIAdvancedSprint
 {
@@ -18,6 +20,18 @@ namespace APIAdvancedSprint
             builder.Services.AddScoped<TeachersModel>();
             builder.Services.AddScoped<TeachersService>();
 
+            builder.Services.AddRateLimiter(options =>
+
+            {
+                options.AddFixedWindowLimiter(policyName: "fixed", options =>
+                {
+                    options.PermitLimit = 3;
+                    options.Window = TimeSpan.FromMinutes(1);
+                    options.QueueLimit = 2;
+                    options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                });
+            });
+
             builder.Services.AddHealthChecks()
                             .AddCheck<TeachersHealthCheck>("teachers_file_health_check",
                                 failureStatus: HealthStatus.Unhealthy,
@@ -26,6 +40,8 @@ namespace APIAdvancedSprint
             var app = builder.Build();
 
             app.UseHealthChecks("/health");
+
+            app.UseRateLimiter();
 
             app.UseRouting();
 
