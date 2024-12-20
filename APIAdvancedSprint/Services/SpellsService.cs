@@ -1,0 +1,18 @@
+﻿using APIAdvancedSprint.Models;
+
+namespace APIAdvancedSprint.Services
+{
+    public class SpellsService
+    {
+        private SpellsModel _spellsModel;
+        public SpellsService(SpellsModel spellsModel)
+        {
+            this._spellsModel = spellsModel;
+        }
+
+        public List<Spell> GetAllSpells()
+        {
+            return _spellsModel.GetAllSpells();
+        }
+    }
+}
