@@ -67,5 +67,27 @@ namespace APIAdvancedSprint.Models
 
             return false;
         }
+
+        public bool TryIncrementRatingById(int id, out Teacher? updatedTeacher)
+        {
+            var allTeachers = GetAllTeachers();
+
+            foreach (Teacher teacher in allTeachers)
+            {
+                if (teacher.Id == id)
+                {
+                    if (teacher.Rating < 5)
+                    {
+                        teacher.Rating++;
+                        updatedTeacher = teacher;
+                        File.WriteAllText("Resources/Teachers.json", JsonSerializer.Serialize(allTeachers));
+                        return true;
+                    }
+                }
+            }
+
+            updatedTeacher = null;
+            return false;
+        }
     }
 }

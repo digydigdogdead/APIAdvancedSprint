@@ -75,5 +75,15 @@ namespace APIAdvancedSprint.Controllers
             if (result) return NoContent();
             else return BadRequest();
         }
+
+        [HttpPatch("{id}")]
+        public IActionResult IncrementRatingById(int id)
+        {
+            bool worked = _teachersService.TryIncrementRatingById(id, out Teacher? updatedTeacher);
+
+            if (worked) return Ok(updatedTeacher);
+
+            else return BadRequest();
+        }
     }
 }

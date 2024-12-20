@@ -29,5 +29,10 @@ namespace APIAdvancedSprint.Services
         {
             return _teachersModel.TryDeleteTeacherById(id);
         }
+
+        public bool TryIncrementRatingById(int id, out Teacher? updatedTeacher)
+        {
+            return _teachersModel.TryIncrementRatingById(id, out updatedTeacher);
+        }
     }
 }
