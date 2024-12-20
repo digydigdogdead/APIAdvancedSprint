@@ -1,5 +1,6 @@
 ﻿using APIAdvancedSprint.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 
 namespace APIAdvancedSprint.Controllers
@@ -23,6 +24,7 @@ namespace APIAdvancedSprint.Controllers
         }
 
         [HttpGet("/spell")]
+        [EnableRateLimiting("fixedSpell")]
         public IActionResult GetRandomSpell()
         {
             return Ok(_spellsService.GetRandomSpell());

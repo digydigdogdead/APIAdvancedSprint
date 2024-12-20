@@ -21,14 +21,15 @@ namespace APIAdvancedSprint
             builder.Services.AddScoped<TeachersService>();
 
             builder.Services.AddRateLimiter(options =>
-
             {
-                options.AddFixedWindowLimiter(policyName: "fixed", options =>
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                options.AddFixedWindowLimiter(policyName: "fixedSpell", options =>
                 {
                     options.PermitLimit = 3;
                     options.Window = TimeSpan.FromMinutes(1);
                     options.QueueLimit = 2;
                     options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                    
                 });
             });
 
@@ -41,13 +42,13 @@ namespace APIAdvancedSprint
 
             app.UseHealthChecks("/health");
 
-            app.UseRateLimiter();
-
             app.UseRouting();
+
+            app.UseRateLimiter();
 
             app.UseEndpoints(endpoints =>
             {
-                _ = endpoints.MapControllers();  // discard pattern '_' ignores the return value of 'MapControllers' because no further configuration of the endpoints is required
+                _ = endpoints.MapControllers();//.RequireRateLimiting("fixedSpell");  // discard pattern '_' ignores the return value of 'MapControllers' because no further configuration of the endpoints is required
             });
 
             app.Run();

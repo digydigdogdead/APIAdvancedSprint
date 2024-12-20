@@ -24,5 +24,10 @@ namespace APIAdvancedSprint.Services
         {
             return _teachersModel.GetAllTeachers();
         }
+
+        public bool TryDeleteTeacherById(int id)
+        {
+            return _teachersModel.TryDeleteTeacherById(id);
+        }
     }
 }

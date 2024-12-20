@@ -46,5 +46,14 @@ namespace APIAdvancedSprint.Controllers
 
             return BadRequest(newTeacher);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTeacherById(int id)
+        {
+            bool result = _teachersService.TryDeleteTeacherById(id);
+
+            if (result) return NoContent();
+            else return BadRequest();
+        }
     }
 }

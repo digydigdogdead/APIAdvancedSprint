@@ -50,5 +50,22 @@ namespace APIAdvancedSprint.Models
                 return false;
             }
         }
+
+        public bool TryDeleteTeacherById(int id)
+        {
+            var allTeachers = GetAllTeachers();
+
+            foreach (Teacher teacher in allTeachers)
+            {
+                if (teacher.Id == id)
+                {
+                    allTeachers.Remove(teacher);
+                    File.WriteAllText("Resources/Teachers.json", JsonSerializer.Serialize(allTeachers));
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
