@@ -15,6 +15,8 @@ namespace APIAdvancedSprint
             builder.Services.AddControllers();
             builder.Services.AddScoped<SpellsModel>();
             builder.Services.AddScoped<SpellsService>();
+            builder.Services.AddScoped<TeachersModel>();
+            builder.Services.AddScoped<TeachersService>();
 
             builder.Services.AddHealthChecks()
                             .AddCheck<TeachersHealthCheck>("teachers_file_health_check",
