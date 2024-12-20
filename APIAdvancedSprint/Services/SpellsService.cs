@@ -19,5 +19,10 @@ namespace APIAdvancedSprint.Services
         {
             return _spellsModel.GetRandomSpell();
         }
+
+        public List<Spell>? GetSpellsByTeacherId(int id)
+        {
+            return _spellsModel.GetSpellsByTeacherId(id);
+        }
     }
 }

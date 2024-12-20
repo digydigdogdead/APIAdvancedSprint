@@ -29,5 +29,17 @@ namespace APIAdvancedSprint.Controllers
         {
             return Ok(_spellsService.GetRandomSpell());
         }
+
+        [HttpGet("teacher/{id}")]
+        public IActionResult GetSpellsByTeacher(int id)
+        {
+            List<Spell>? result = _spellsService.GetSpellsByTeacherId(id);
+
+            if (result is null) return NotFound();
+
+            if (result.Count == 0) return NoContent();
+
+            return Ok(result);
+        }
     }
 }

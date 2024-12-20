@@ -18,5 +18,21 @@ namespace APIAdvancedSprint.Models
 
             return allSpells[randomIndex];
         }
+
+        public List<Spell>? GetSpellsByTeacherId(int id)
+        {
+            var allSpells = GetAllSpells();
+            TeachersModel teachersModel = new TeachersModel();
+            Teacher? teacher = teachersModel.GetTeacherById(id);
+            if (teacher == null) return null;
+
+            List<string> teachersSpells = teacher.Teaches;
+
+            List<Spell> relevantSpells = (from spell in allSpells
+                                         join teachersspell in teachersSpells on spell.Name equals teachersspell
+                                         select spell).ToList();
+
+            return relevantSpells;
+        }
     }
 }
