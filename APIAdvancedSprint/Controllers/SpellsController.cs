@@ -41,5 +41,11 @@ namespace APIAdvancedSprint.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("debug")]
+        public IActionResult GetDebug()
+        {
+            return Ok("This spell is being debugged.");
+        }
     }
 }
